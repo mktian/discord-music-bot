@@ -130,7 +130,7 @@ class Music(commands.Cog):
     @commands.command(name="queue", help="Displays the current songs in queue", aliases=['q'])
     async def q(self, ctx):
         retval = ""
-        for i in range(0, len(self.music_queue)):
+        for i in range(0, 10):
             s = self.music_queue[i]
             retval += '{i}: \t [{t}]({u}) - {d}'.format(i=i + 1, t=s['title'], u=s['link_url'],
                                                         d=str(datetime.timedelta(seconds=s['duration']))) + "\n"
