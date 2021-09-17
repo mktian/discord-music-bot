@@ -13,14 +13,15 @@ class Music(commands.Cog):
         self.is_playing = False
 
         self.music_queue = []
-        self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'False'}
         self.FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
                                'options': '-vn'}
 
         self.vc = ""
 
     def search_yt(self, item):
-        with YoutubeDL(self.YDL_OPTIONS) as ydl:
+        YDL_OPTIONS = {'format': 'bestaudio/best', 'noplaylist': 'False'}
+        
+        with YoutubeDL(YDL_OPTIONS) as ydl:
             try:
                 yt_list = []
 
