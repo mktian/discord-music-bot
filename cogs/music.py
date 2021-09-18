@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import discord
 from discord.ext import commands
 
@@ -131,7 +132,7 @@ class Music(commands.Cog):
     @commands.command(name="queue", help="Displays the current songs in queue", aliases=['q'])
     async def q(self, ctx):
         retval = ""
-        for i in range(0, 10):
+        for i in range(0, min(len(self.music_queue),10)):
             s = self.music_queue[i]
             retval += '{i}: \t [{t}]({u}) - {d}'.format(i=i + 1, t=s['title'], u=s['link_url'],
                                                         d=str(datetime.timedelta(seconds=s['duration']))) + "\n"
@@ -188,7 +189,7 @@ class Music(commands.Cog):
         await self.vc.disconnect()
         self.is_playing = False
 
-    @commands.command(name="now", help="Current song information", asliases=['np'])
+    @commands.command(name="now", help="Current song information", aliases=['np'])
     async def now(self, ctx):
         if len(self.music_queue) < 1:
             embed = discord.Embed(
@@ -204,4 +205,39 @@ class Music(commands.Cog):
                                                       d=str(datetime.timedelta(seconds=song['duration']))),
             )
             embed.set_thumbnail(url=song['thumbnail_url'])
+            await ctx.send(embed=embed)
+
+    @commands.command(name="remove", help="Remove song from queue", aliases=['rm'])
+    async def remove(self, ctx, index: int):
+        if not index or index == '' or type(index) != int:
+            embed = discord.Embed(
+                description='You BLUNDER! What am I supposed to remove? You branched.'
+            )
+            return await ctx.send(embed=embed)
+        elif index > len(self.music_queue) or index < 1:
+            embed = discord.Embed(
+                description='You BLUNDER! You think you\'re a smart guy eh? I can\'t remove something that doesn\'t exist, branchod.'
+            )
+            await ctx.send(embed=embed)
+        elif len(self.music_queue) < 1:
+            embed = discord.Embed(
+                description='Are you crazy? There are no songs in the queue, bloody.'
+            )
+            await ctx.send(embed=embed)
+        elif len(self.music_queue) == 1:
+            embed = discord.Embed(
+                description='If you want to go then you use -stop next time and then go down.'
+            )
+            await ctx.send(embed=embed)
+        else:
+            index -= 1
+            removed = self.music_queue[index]
+            self.music_queue.pop(index)
+            
+            embed = discord.Embed(
+                title='Removed from queue:',
+                description='[{t}]({u}) - {d}'.format(t=removed['title'], u=removed['link_url'],
+                                                      d=str(datetime.timedelta(seconds=removed['duration']))),
+            )
+            embed.set_thumbnail(url=removed['thumbnail_url'])
             await ctx.send(embed=embed)

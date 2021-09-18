@@ -3,5 +3,5 @@ token.txt
 *.ipynb
 venv/
 cogs/__pycache__/
-cogs/music_old.py
-cogs/music_viv1.py
+archive/
+main_test.py

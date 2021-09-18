@@ -13,6 +13,7 @@ General commands:
 -skip or -sk or -next - skips the current song being played
 -stop or -st - stops everything
 -now or -np - currently playing song
+-remove or -rm <queue #> - removes track from queue
 ```
 """
         self.text_channel_list = []
