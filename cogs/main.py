@@ -11,9 +11,10 @@ General commands:
 -play or -p <keywords> - finds the song on youtube and plays it in your current channel
 -queue or -q - displays the current music queue
 -skip or -sk or -next - skips the current song being played
--stop or -st - stops everything
+-stop or -end - stops everything
 -now or -np - currently playing song
 -remove or -rm <queue #> - removes track from queue
+-skipto or -st <queue #> - skips to track # from queue (removes everything before it)
 ```
 """
         self.text_channel_list = []
